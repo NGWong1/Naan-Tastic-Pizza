@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naan-Tastic-Pizza - Menu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f8f9fa;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .tagline {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        .nav-pills {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px 15px;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            overflow-x: auto;
+        }
+        
+        .nav-pill {
+            background: #e9ecef;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            min-width: fit-content;
+        }
+        
+        .nav-pill.active {
+            background: #d32f2f;
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .nav-pill:hover:not(.active) {
+            background: #dee2e6;
+            transform: scale(1.02);
+        }
+        
+        .menu-section {
+            display: none;
+            padding: 20px 15px;
+        }
+        
+        .menu-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            color: #d32f2f;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .menu-item {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+        
+        .item-header {
+            display: flex;
+            justify-content: between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+        
+        .item-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            flex-grow: 1;
+        }
+        
+        .item-price {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #d32f2f;
+            margin-left: 10px;
+        }
+        
+        .item-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .item-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .tag {
+            background: #f8f9fa;
+            color: #666;
+            font-size: 0.8rem;
+            padding: 4px 8px;
+            border-radius: 12px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .tag.spicy {
+            background: #fff3cd;
+            color: #856404;
+            border-color: #ffeaa7;
+        }
+        
+        .tag.veggie {
+            background: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+        
+        .tag.popular {
+            background: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+        
+        .tag.fusion {
+            background: #e7e3ff;
+            color: #5a54a4;
+            border-color: #d1ecf1;
+        }
+        
+        .order-section {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 15px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .order-button {
+            width: 100%;
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .order-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        }
+        
+        .order-info {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .content-wrapper {
+            padding-bottom: 100px;
+        }
+        
+        .emoji {
+            font-size: 1.2rem;
+        }
+        
+        @media (max-width: 480px) {
+            .nav-pills {
+                padding: 15px 10px;
+            }
+            
+            .nav-pill {
+                font-size: 0.8rem;
+                padding: 8px 15px;
+            }
+            
+            .logo {
+                font-size: 1.8rem;
+            }
+            
+            .menu-item {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="logo">🍕 Naan-Tastic-Pizza</div>
+            <div class="tagline">Fusion Flavors Since 2024</div>
+        </div>
+    </div>
+    
+    <div class="nav-pills">
+        <button class="nav-pill active" onclick="showSection('pizzas')">🍕 Naan Pizzas</button>
+        <button class="nav-pill" onclick="showSection('sides')">🥗 Sides</button>
+        <button class="nav-pill" onclick="showSection('drinks')">🥤 Drinks</button>
+        <button class="nav-pill" onclick="showSection('desserts')">🍰 Desserts</button>
+    </div>
+    
+    <div class="content-wrapper">
+        <div class="container">
+            <!-- Pizzas Section -->
+            <div id="pizzas" class="menu-section active">
+                <h2 class="section-title">Our Famous Naan Pizzas</h2>
+                
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Butter Chicken Naan Pizza</div>
+                        <div class="item-price">$18.99</div>
+                    </div>
+                    <div class="item-description">Creamy butter chicken sauce, tender chicken pieces, mozzarella, red onions, and fresh cilantro on our signature naan base.</div>
+                    <div class="item-tags">
+                        <span class="tag popular">Most Popular</span>
+                        <span class="tag fusion">Fusion</span>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Tandoori Veggie Delight</div>
+                        <div class="item-price">$17.99</div>
+                    </div>
+                    <div class="item-description">Tandoori-spiced vegetables, paneer, bell peppers, red onions, and mint chutney on garlic naan base.</div>
+                    <div class="item-tags">
+                        <span class="tag veggie">Vegetarian</span>
+                        <span class="tag fusion">Fusion</span>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Spicy Tikka Masala</div>
+                        <div class="item-price">$19.99</div>
+                    </div>
+                    <div class="item-description">Chicken tikka, spicy masala sauce, mozzarella, jalapeños, and fresh herbs on garlic naan.</div>
+                    <div class="item-tags">
+                        <span class="tag spicy">Spicy 🌶️</span>
+                        <span class="tag fusion">Fusion</span>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Classic Margherita Naan</div>
+                        <div class="item-price">$16.99</div>
+                    </div>
+                    <div class="item-description">Traditional tomato sauce, fresh mozzarella, basil, and olive oil on our fluffy naan base.</div>
+                    <div class="item-tags">
+                        <span class="tag veggie">Vegetarian</span>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Keema Curry Special</div>
+                        <div class="item-price">$21.99</div>
+                    </div>
+                    <div class="item-description">Spiced ground lamb, curry sauce, caramelized onions, fresh mint, and mozzarella on naan base.</div>
+                    <div class="item-tags">
+                        <span class="tag spicy">Spicy 🌶️</span>
+                        <span class="tag fusion">Fusion</span>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Punjabi Paneer Paradise</div>
+                        <div class="item-price">$18.99</div>
+                    </div>
+                    <div class="item-description">Marinated paneer, bell peppers, red onions, tomatoes, and creamy sauce on garlic naan.</div>
+                    <div class="item-tags">
+                        <span class="tag veggie">Vegetarian</span>
+                        <span class="tag popular">Fan Favorite</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sides Section -->
+            <div id="sides" class="menu-section">
+                <h2 class="section-title">Delicious Sides</h2>
+                
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Garlic Naan Sticks</div>
+                        <div class="item-price">$7.99</div>
+                    </div>
+                    <div class="item-description">Warm naan sticks brushed with garlic butter and herbs, served with mint chutney.</div>
+                    <div class="item-tags">
+                        <span class="tag popular">Popular</span>
+                        <span class="tag veggie">Vegetarian</span>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Samosa Chaat</div>
+                        <div class="item-price">$9.99</div>
+                    </div>
+                    <div class="item-description">Crispy samosas topped with chickpeas, yogurt, tamarind chutney, and fresh herbs.</div>
+                    <div class="item-tags">
+                        <span class="tag fusion">Fusion</span>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Tandoori Wings</div>
+                        <div class="item-price">$12.99</div>
+                    </div>
+                    <div class="item-description">6 pieces of chicken wings marinated in tandoori spices, served with mint yogurt sauce.</div>
+                    <div class="item-tags">
+                        <span class="tag spicy">Spicy 🌶️</span>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Fresh Cucumber Raita</div>
+                        <div class="item-price">$5.99</div>
+                    </div>
+                    <div class="item-description">Cool yogurt mixed with fresh cucumber, mint, and spices. Perfect with spicy dishes!</div>
+                    <div class="item-tags">
+                        <span class="tag veggie">Vegetarian</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Drinks Section -->
+            <div id="drinks" class="menu-section">
+                <h2 class="section-title">Refreshing Drinks</h2>
+                
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Mango Lassi</div>
+                        <div class="item-price">$4.99</div>
+                    </div>
+                    <div class="item-description">Creamy yogurt drink blended with sweet mango and cardamom.</div>
+                    <div class="item-tags">
+                        <span class="tag popular">Signature</span>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Masala Chai</div>
+                        <div class="item-price">$3.99</div>
+                    </div>
+                    <div class="item-description">Traditional spiced tea with cardamom, ginger, and cinnamon.</div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Fresh Lime Soda</div>
+                        <div class="item-price">$3.49</div>
+                    </div>
+                    <div class="item-description">Sparkling water with fresh lime juice and a pinch of black salt.</div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Soft Drinks</div>
+                        <div class="item-price">$2.99</div>
+                    </div>
+                    <div class="item-description">Coke, Pepsi, Sprite, Orange, or Diet options.</div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Coconut Water</div>
+                        <div class="item-price">$3.99</div>
+                    </div>
+                    <div class="item-description">Fresh coconut water - naturally refreshing and hydrating.</div>
+                </div>
+            </div>
+            
+            <!-- Desserts Section -->
+            <div id="desserts" class="menu-section">
+                <h2 class="section-title">Sweet Endings</h2>
+                
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Gulab Jamun</div>
+                        <div class="item-price">$5.99</div>
+                    </div>
+                    <div class="item-description">Soft milk dumplings soaked in sweet cardamom syrup. Served warm with a scoop of vanilla ice cream.</div>
+                    <div class="item-tags">
+                        <span class="tag popular">Traditional</span>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Kulfi Popsicle</div>
+                        <div class="item-price">$4.99</div>
+                    </div>
+                    <div class="item-description">Traditional Indian ice cream with pistachios and cardamom on a stick.</div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Chocolate Naan</div>
+                        <div class="item-price">$6.99</div>
+                    </div>
+                    <div class="item-description">Sweet naan stuffed with Nutella and served with fresh strawberries and whipped cream.</div>
+                    <div class="item-tags">
+                        <span class="tag fusion">Fusion</span>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Ras Malai</div>
+                        <div class="item-price">$6.49</div>
+                    </div>
+                    <div class="item-description">Soft cottage cheese dumplings in sweetened cardamom milk, garnished with pistachios.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="order-section">
+        <div class="order-info">
+            Ready to order? Call us or visit our counter!
+        </div>
+        <button class="order-button" onclick="placeOrder()">
+            <span class="emoji">📞</span>
+            Call to Order: (555) NAAN-PIZ
+        </button>
+    </div>
+    
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.menu-section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Remove active class from all pills
+            const pills = document.querySelectorAll('.nav-pill');
+            pills.forEach(pill => pill.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked pill
+            event.target.classList.add('active');
+        }
+        
+        function placeOrder() {
+            if (confirm('This will call Naan-Tastic-Pizza at (555) NAAN-PIZ. Continue?')) {
+                window.location.href = 'tel:+15556226749';
+            }
+        }
+        
+        // Add smooth scrolling for mobile
+        document.querySelectorAll('.nav-pill').forEach(pill => {
+            pill.addEventListener('click', () => {
+                setTimeout(() => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, 100);
+            });
+        });
+        
+        // Add touch feedback for menu items
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.98)';
+            });
+            
+            item.addEventListener('touchend', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
